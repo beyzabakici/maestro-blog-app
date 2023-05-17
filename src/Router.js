@@ -13,6 +13,9 @@ const Router = () => {
         screenOptions={{
           headerTintColor: Colors.primaryGreen,
           headerShadowVisible: false,
+          headerStyle: {
+            backgroundColor: Colors.backgroundBeige,
+          },
         }}
       >
         <Stack.Screen name="Maestro Blog" component={HomeScreen} />
