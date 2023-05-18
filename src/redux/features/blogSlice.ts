@@ -32,6 +32,11 @@ const blogSlice = createSlice({
     addFavorites: (state, action: PayloadAction<number>) => {
       state.favoriteIdList.push(action.payload);
     },
+    removeFavorites: (state, action: PayloadAction<number>) => {
+      state.favoriteIdList = state.favoriteIdList.filter(
+        (item) => item !== action.payload
+      );
+    },
   },
   extraReducers: (builder) => {
     builder.addCase(fetchData.pending, (state) => {
@@ -49,5 +54,5 @@ const blogSlice = createSlice({
   },
 });
 
-export const { addFavorites } = blogSlice.actions;
+export const { addFavorites, removeFavorites } = blogSlice.actions;
 export default blogSlice.reducer;

@@ -2,10 +2,15 @@ import React, { useState } from "react";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 
-import { addFavorites, useAppDispatch, useAppSelector } from "./redux";
+import {
+  addFavorites,
+  useAppDispatch,
+  useAppSelector,
+  removeFavorites,
+} from "./redux";
 import { Colors, SvgEnum } from "./utils";
 import { HomeScreen, DetailScreen } from "./screens";
-import { Icon, TouchableOpacity } from "./components";
+import { Icon } from "./components";
 
 const Stack = createNativeStackNavigator();
 
@@ -15,7 +20,9 @@ const Router = () => {
   const dispatch = useAppDispatch();
 
   const handleAddToFavorites = (postId) => {
-    dispatch(addFavorites(postId));
+    favoriteIdList.includes(postId)
+      ? dispatch(removeFavorites(postId))
+      : dispatch(addFavorites(postId));
   };
 
   const handleButtonPress = (navigation) => {
