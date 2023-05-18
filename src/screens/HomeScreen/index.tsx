@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { SafeAreaView, Text } from "react-native";
 import {
   AppDispatch,
@@ -16,6 +16,7 @@ type Props = { navigation: any };
 const HomeScreen: React.FC<Props> = ({ navigation }) => {
   const { data } = useAppSelector((state) => state.blog);
   const dispatch: AppDispatch = useAppDispatch();
+  const [refreshing, setRefreshing] = useState(false);
 
   useEffect(() => {
     dispatch(fetchData());
@@ -23,6 +24,11 @@ const HomeScreen: React.FC<Props> = ({ navigation }) => {
 
   const goToBlogDetail = (blog: BlogResponseType) => {
     navigation.navigate("Detail Screen", { blogDetails: blog });
+  };
+
+  const onRefreshList = () => {
+    dispatch(fetchData());
+    setRefreshing(false);
   };
 
   return (
@@ -34,6 +40,8 @@ const HomeScreen: React.FC<Props> = ({ navigation }) => {
             <Card item={item} goToBlogDetail={goToBlogDetail} />
           )}
           estimatedItemSize={200}
+          onRefresh={onRefreshList}
+          refreshing={refreshing}
         />
       )}
     </SafeAreaView>
