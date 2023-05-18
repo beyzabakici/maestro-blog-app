@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { SafeAreaView, Image, ScrollView } from "react-native";
 import styles from "./styles";
 import RenderHtml from "react-native-render-html";
@@ -6,11 +6,16 @@ import { screenWidth } from "../../utils";
 
 type Props = {
   route: any;
+  navigation: any;
 };
 
-const DetailScreen: React.FC<Props> = ({ route }) => {
-  const { banner, content } = route.params.blogDetails;
+const DetailScreen: React.FC<Props> = ({ route, navigation }) => {
+  const { banner, content, title } = route.params.blogDetails;
 
+  useEffect(() => {
+    navigation.setOptions({ headerTitle: title });
+  }, []);
+  
   return (
     <SafeAreaView style={styles.screenContainer}>
       <Image source={{ uri: banner }} style={styles.banner} />
