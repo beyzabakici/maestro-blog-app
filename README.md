@@ -1,2 +1,4 @@
 # maestro-blog-app
-Developing an application that allows us to view the list of blog posts belonging to maestrocr.com and the details of each post.
+An application that allows us to see the list of blog posts belonging to maestrocr.com and the details of each post.
+
+https://expo.dev/@beyzabakici/maestro-blog-app
