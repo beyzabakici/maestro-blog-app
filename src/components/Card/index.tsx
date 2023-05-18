@@ -1,7 +1,8 @@
 import React from "react";
 import { View, Text, Image, TouchableOpacity } from "react-native";
 import styles from "./styles";
-import { BlogResponseType, formatDateString } from "../../utils";
+import { BlogResponseType, SvgEnum, formatDateString } from "../../utils";
+import Icon from "../Icon";
 
 type Props = {
   item: BlogResponseType;
@@ -17,8 +18,16 @@ const Card: React.FC<Props> = ({ item, goToBlogDetail }) => {
     >
       <Image source={{ uri: image }} style={styles.image} />
       <View style={styles.descriptionArea}>
-          <Text style={styles.date}>{formatDateString(createdAt)}</Text>
-          <Text style={styles.totalReadingTime}>{`${totalReadingTime} dk`}</Text>
+        <View style={{ ...styles.row, ...styles.timeArea }}>
+          <View style={styles.row}>
+            <Icon name={SvgEnum.write} iconStyle={styles.icon} />
+            <Text style={styles.date}>{formatDateString(createdAt)}</Text>
+          </View>
+          <View style={styles.row}>
+            <Icon name={SvgEnum.time} iconStyle={styles.icon} />
+            <Text style={styles.date}>{`${totalReadingTime} dk`}</Text>
+          </View>
+        </View>
         <Text style={styles.title} numberOfLines={2} ellipsizeMode="tail">
           {title}
         </Text>
