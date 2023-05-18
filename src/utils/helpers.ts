@@ -13,4 +13,6 @@ function formatDateString(dateString: string): string {
   return formattedDate;
 }
 
-export { screenWidth, screenHeight, formatDateString };
+const emptyText = 'Oops! \n There are no favorited blog posts here.\n 📚 📖'
+
+export { screenWidth, screenHeight, formatDateString, emptyText };

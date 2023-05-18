@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from "react";
-import { SafeAreaView } from "react-native";
+import { SafeAreaView, Text } from "react-native";
 import { fetchData, useAppDispatch, useAppSelector } from "../../redux";
 import { Card } from "../../components";
 import styles from "./styles";
 import { FlashList } from "@shopify/flash-list";
-import { BlogResponseType } from "../../utils";
+import { BlogResponseType, emptyText } from "../../utils";
 
 type Props = { navigation: any; route: any };
 
@@ -36,6 +36,9 @@ const HomeScreen: React.FC<Props> = ({ navigation, route }) => {
     }
   }, [data, favoriteIdList]);
 
+  const emptyComponent = () => {
+    return <Text style={styles.emptyText}>{emptyText}</Text>;
+  };
   return (
     <SafeAreaView style={styles.screenContainer}>
       <FlashList
@@ -46,6 +49,7 @@ const HomeScreen: React.FC<Props> = ({ navigation, route }) => {
         estimatedItemSize={200}
         onRefresh={onRefreshList}
         refreshing={refreshing}
+        ListEmptyComponent={emptyComponent()}
       />
     </SafeAreaView>
   );
