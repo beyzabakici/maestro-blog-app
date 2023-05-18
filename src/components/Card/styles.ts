@@ -11,12 +11,13 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     borderWidth: 2,
     borderRadius: 5,
-    borderColor: Colors.primaryBrownLight,
+    borderColor: Colors.primaryBrownShadow,
     paddingHorizontal: 8,
     marginVertical: 8,
     alignSelf: 'center',
     flexDirection: 'row',
     flexWrap: 'wrap',
+    flexGrow: 1,
     backgroundColor: Colors.primaryBrownShadow,
     alignContent: 'center',
   },
@@ -54,6 +55,12 @@ const styles = StyleSheet.create({
     marginLeft: 5,
     height: '85%',
     justifyContent: 'space-around'
+  },
+  totalReadingTime: {
+    color: Colors.secondaryBrownLight,
+    fontSize: 10,
+    fontWeight: 'bold',
+    alignSelf: 'flex-end',
   }
 });
 

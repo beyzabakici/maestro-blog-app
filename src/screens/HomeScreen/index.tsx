@@ -11,9 +11,9 @@ import styles from "./styles";
 import { FlashList } from "@shopify/flash-list";
 import { BlogResponseType } from "../../utils";
 
-type Props = {};
+type Props = { navigation: any };
 
-const HomeScreen: React.FC<Props> = () => {
+const HomeScreen: React.FC<Props> = ({ navigation }) => {
   const { data } = useAppSelector((state) => state.blog);
   const dispatch: AppDispatch = useAppDispatch();
 
@@ -21,13 +21,17 @@ const HomeScreen: React.FC<Props> = () => {
     dispatch(fetchData());
   }, []);
 
+  const goToBlogDetail = (blog: BlogResponseType) => {
+    navigation.navigate("Detail Screen", { blogDetails: blog });
+  };
+
   return (
     <SafeAreaView style={styles.screenContainer}>
       {!!data && (
         <FlashList
           data={data.result}
           renderItem={({ item }: { item: BlogResponseType }) => (
-            <Card item={item} />
+            <Card item={item} goToBlogDetail={goToBlogDetail} />
           )}
           estimatedItemSize={200}
         />
