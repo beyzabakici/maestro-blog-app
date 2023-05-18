@@ -1,4 +1,4 @@
-import { PayloadAction, createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 import axios from "axios";
 import Constants from "expo-constants";
 import { AppConfig } from "../../../app.config";
@@ -6,14 +6,18 @@ import { MainResponseType } from "../../utils";
 
 const { BASE_URL } = Constants.manifest?.extra as AppConfig;
 
-const initialState: {
-  data: MainResponseType ;
+interface BlogState {
+  data?: MainResponseType;
   error: string;
   loading: boolean;
-} = {
+  favoriteIdList: number[];
+}
+
+const initialState: BlogState = {
   data: undefined,
   error: "",
   loading: false,
+  favoriteIdList: [],
 };
 
 export const fetchData = createAsyncThunk("get/fetchData", async () => {
@@ -24,30 +28,26 @@ export const fetchData = createAsyncThunk("get/fetchData", async () => {
 const blogSlice = createSlice({
   name: "blog",
   initialState,
-  reducers: {},
+  reducers: {
+    addFavorites: (state, action: PayloadAction<number>) => {
+      state.favoriteIdList.push(action.payload);
+    },
+  },
   extraReducers: (builder) => {
     builder.addCase(fetchData.pending, (state) => {
-      return {
-        ...state,
-        loading: true,
-        error: "",
-      };
+      state.loading = true;
+      state.error = "";
     });
     builder.addCase(fetchData.fulfilled, (state, action) => {
-      return {
-        ...state,
-        data: action.payload,
-        loading: false,
-      };
+      state.data = action.payload;
+      state.loading = false;
     });
     builder.addCase(fetchData.rejected, (state) => {
-      return {
-        ...state,
-        loading: false,
-        error: "An Unexpected Error",
-      };
+      state.loading = false;
+      state.error = "An Unexpected Error";
     });
   },
 });
 
+export const { addFavorites } = blogSlice.actions;
 export default blogSlice.reducer;

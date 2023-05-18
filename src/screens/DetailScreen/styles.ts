@@ -5,7 +5,7 @@ const styles = StyleSheet.create({
   screenContainer: {
     flex: 1,
     backgroundColor: Colors.backgroundBeige,
-    alignItems: 'center'
+    alignItems: 'center',
   },
   banner: {
     width: screenWidth * 0.95,
@@ -16,7 +16,7 @@ const styles = StyleSheet.create({
   content: {
     width: screenWidth * 0.95,
     color: Colors.secondaryGreen
-  }
+  },
 });
 
 export default styles;

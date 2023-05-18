@@ -1,26 +1,22 @@
 import React, { useEffect, useState } from "react";
-import { SafeAreaView, Text } from "react-native";
-import {
-  AppDispatch,
-  fetchData,
-  useAppDispatch,
-  useAppSelector,
-} from "../../redux";
+import { SafeAreaView } from "react-native";
+import { fetchData, useAppDispatch, useAppSelector } from "../../redux";
 import { Card } from "../../components";
 import styles from "./styles";
 import { FlashList } from "@shopify/flash-list";
 import { BlogResponseType } from "../../utils";
 
-type Props = { navigation: any };
+type Props = { navigation: any; route: any };
 
-const HomeScreen: React.FC<Props> = ({ navigation }) => {
-  const { data } = useAppSelector((state) => state.blog);
-  const dispatch: AppDispatch = useAppDispatch();
+const HomeScreen: React.FC<Props> = ({ navigation, route }) => {
+  const { data, favoriteIdList } = useAppSelector((state) => state.blog);
+  const dispatch = useAppDispatch();
   const [refreshing, setRefreshing] = useState(false);
+  const [listData, setListData] = useState<BlogResponseType[]>([]);
 
   useEffect(() => {
     dispatch(fetchData());
-  }, []);
+  }, [dispatch]);
 
   const goToBlogDetail = (blog: BlogResponseType) => {
     navigation.navigate("Detail Screen", { blogDetails: blog });
@@ -31,19 +27,26 @@ const HomeScreen: React.FC<Props> = ({ navigation }) => {
     setRefreshing(false);
   };
 
+  useEffect(() => {
+    if (data?.result) {
+      const filteredData = data.result.filter((item) =>
+        favoriteIdList.includes(item.postId)
+      );
+      setListData(filteredData);
+    }
+  }, [data, favoriteIdList]);
+
   return (
     <SafeAreaView style={styles.screenContainer}>
-      {!!data && (
-        <FlashList
-          data={data.result}
-          renderItem={({ item }: { item: BlogResponseType }) => (
-            <Card item={item} goToBlogDetail={goToBlogDetail} />
-          )}
-          estimatedItemSize={200}
-          onRefresh={onRefreshList}
-          refreshing={refreshing}
-        />
-      )}
+      <FlashList
+        data={route?.params?.visibleFavorites ? listData : data?.result}
+        renderItem={({ item }: { item: BlogResponseType }) => (
+          <Card item={item} goToBlogDetail={goToBlogDetail} />
+        )}
+        estimatedItemSize={200}
+        onRefresh={onRefreshList}
+        refreshing={refreshing}
+      />
     </SafeAreaView>
   );
 };

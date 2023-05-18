@@ -3,7 +3,7 @@ import { Colors } from "../../utils";
 
 const styles = StyleSheet.create({
   icon: {
-    fontSize: 14,
+    fontSize: 20,
     color: Colors.secondaryGreen,
     alignSelf: 'center',
     justifyContent: 'center'

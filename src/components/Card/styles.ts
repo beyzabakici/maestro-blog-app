@@ -19,14 +19,14 @@ const styles = StyleSheet.create({
     alignContent: "center",
   },
   title: {
-    fontSize: 14,
+    fontSize: 16,
     fontWeight: "bold",
     color: Colors.primaryGreen,
     textAlign: "left",
     flexWrap: "wrap",
   },
   date: {
-    fontSize: 12,
+    fontSize: 14,
     fontWeight: "bold",
     color: Colors.primaryBrown,
     alignSelf: "flex-end",
@@ -39,7 +39,7 @@ const styles = StyleSheet.create({
     alignSelf: "center",
   },
   summary: {
-    fontSize: 10,
+    fontSize: 12,
     fontWeight: "bold",
     color: Colors.secondaryBrown,
   },
@@ -49,7 +49,7 @@ const styles = StyleSheet.create({
     height: "85%",
     justifyContent: "space-around",
   },
-  row: { flexDirection: "row" },
+  row: { flexDirection: "row", alignItems: 'center'},
   icon: { fontSize: 11, paddingRight: "1%", color: Colors.primaryBrown },
   timeArea: {
     justifyContent: "space-between",

@@ -9,5 +9,7 @@ export const Colors = {
   secondaryBrown: '#bc6c25',
   secondaryBrownLight: '#d4a373',
   primaryBrownShadow: '#dda15e25',
+  primaryGreenShadow: "#e9edc980",
+
 
 };
