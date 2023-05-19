@@ -29,7 +29,7 @@ expo start
 
 icons : Ionicons
 
-APIs used : null 
+APIs used : maestrocr.com 
 
 Dependencies :
    "@expo/webpack-config": "^18.0.1",
