@@ -7,6 +7,10 @@ const store = configureStore({
   reducer: {
     blog: blogSlice
   },
+  middleware: getDefaultMiddleware =>
+  getDefaultMiddleware({
+    serializableCheck: false,
+  }),
 });
 
 export default store;

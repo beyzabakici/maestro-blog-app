@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { SafeAreaView, Text } from "react-native";
+import { ActivityIndicator, SafeAreaView, Text, View } from "react-native";
 import { fetchData, useAppDispatch, useAppSelector } from "../../redux";
 import { Card } from "../../components";
 import styles from "./styles";
@@ -9,13 +9,16 @@ import { BlogResponseType, emptyText } from "../../utils";
 type Props = { navigation: any; route: any };
 
 const HomeScreen: React.FC<Props> = ({ navigation, route }) => {
-  const { data, favoriteIdList } = useAppSelector((state) => state.blog);
+  const { data, favoriteIdList, loading } = useAppSelector(
+    (state) => state.blog
+  );
   const dispatch = useAppDispatch();
   const [refreshing, setRefreshing] = useState(false);
   const [listData, setListData] = useState<BlogResponseType[]>([]);
+  const [page, setPage] = useState<number>(1);
 
   useEffect(() => {
-    dispatch(fetchData());
+    dispatch(fetchData(page));
   }, [dispatch]);
 
   const goToBlogDetail = (blog: BlogResponseType) => {
@@ -23,7 +26,8 @@ const HomeScreen: React.FC<Props> = ({ navigation, route }) => {
   };
 
   const onRefreshList = () => {
-    dispatch(fetchData());
+    setPage(1);
+    dispatch(fetchData(page));
     setRefreshing(false);
   };
 
@@ -39,6 +43,24 @@ const HomeScreen: React.FC<Props> = ({ navigation, route }) => {
   const emptyComponent = () => {
     return <Text style={styles.emptyText}>{emptyText}</Text>;
   };
+
+  const footerIndicator = () => {
+    return loading ? (
+      <View
+        style={{
+          paddingVertical: 20,
+        }}
+      >
+        <ActivityIndicator animating size="small" />
+      </View>
+    ) : null;
+  };
+
+  const fetchMoreData = () => {
+    setPage(page + 1);
+    dispatch(fetchData(page));
+  };
+
   return (
     <SafeAreaView style={styles.screenContainer}>
       <FlashList
@@ -50,6 +72,9 @@ const HomeScreen: React.FC<Props> = ({ navigation, route }) => {
         onRefresh={onRefreshList}
         refreshing={refreshing}
         ListEmptyComponent={emptyComponent()}
+        onEndReached={fetchMoreData}
+        onEndReachedThreshold={0.5}
+        ListFooterComponent={footerIndicator}
       />
     </SafeAreaView>
   );

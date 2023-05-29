@@ -20,10 +20,15 @@ const initialState: BlogState = {
   favoriteIdList: [],
 };
 
-export const fetchData = createAsyncThunk("get/fetchData", async () => {
-  const response = await axios.get<MainResponseType>(`${BASE_URL}`);
-  return response.data;
-});
+export const fetchData = createAsyncThunk(
+  "get/fetchData",
+  async (page: number) => {
+    const response = await axios.get<MainResponseType>(
+      `${BASE_URL}?page=${page}&count=5`
+    );
+    return response.data;
+  }
+);
 
 const blogSlice = createSlice({
   name: "blog",
@@ -44,7 +49,16 @@ const blogSlice = createSlice({
       state.error = "";
     });
     builder.addCase(fetchData.fulfilled, (state, action) => {
-      state.data = action.payload;
+      const maxPage = Math.ceil(
+        action.payload.totalCount / action.payload.result.length
+      );
+      state.data =
+        action.meta.arg === 1 || action.meta.arg > maxPage
+          ? action.payload
+          : {
+              ...state.data,
+              result: [...state.data?.result, ...action.payload.result],
+            };
       state.loading = false;
     });
     builder.addCase(fetchData.rejected, (state) => {
