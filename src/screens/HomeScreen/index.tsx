@@ -1,12 +1,17 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { ActivityIndicator, SafeAreaView, Text, View } from "react-native";
 import { fetchData, useAppDispatch, useAppSelector } from "../../redux";
 import { Card } from "../../components";
 import styles from "./styles";
 import { FlashList } from "@shopify/flash-list";
-import { BlogResponseType, emptyText } from "../../utils";
+import {
+  BlogResponseType,
+  appNavigationProp,
+  appRouteProp,
+  emptyText,
+} from "../../utils";
 
-type Props = { navigation: any; route: any };
+type Props = { navigation: appNavigationProp; route: appRouteProp };
 
 const HomeScreen: React.FC<Props> = ({ navigation, route }) => {
   const { data, favoriteIdList, loading } = useAppSelector(
@@ -25,11 +30,11 @@ const HomeScreen: React.FC<Props> = ({ navigation, route }) => {
     navigation.navigate("Detail Screen", { blogDetails: blog });
   };
 
-  const onRefreshList = () => {
+  const onRefreshList = useCallback(() => {
     setPage(1);
     dispatch(fetchData(page));
     setRefreshing(false);
-  };
+  }, []);
 
   useEffect(() => {
     if (data?.result) {
@@ -46,11 +51,7 @@ const HomeScreen: React.FC<Props> = ({ navigation, route }) => {
 
   const footerIndicator = () => {
     return loading ? (
-      <View
-        style={{
-          paddingVertical: 20,
-        }}
-      >
+      <View style={styles.footerIndicator}>
         <ActivityIndicator animating size="small" />
       </View>
     ) : null;
@@ -71,9 +72,9 @@ const HomeScreen: React.FC<Props> = ({ navigation, route }) => {
         estimatedItemSize={200}
         onRefresh={onRefreshList}
         refreshing={refreshing}
-        ListEmptyComponent={emptyComponent()}
+        ListEmptyComponent={emptyComponent}
         onEndReached={fetchMoreData}
-        onEndReachedThreshold={0.5}
+        onEndReachedThreshold={0.2}
         ListFooterComponent={footerIndicator}
       />
     </SafeAreaView>

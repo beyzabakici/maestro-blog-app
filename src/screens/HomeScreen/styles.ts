@@ -11,10 +11,13 @@ const styles = StyleSheet.create({
     fontSize: 18,
     fontWeight: "bold",
     color: Colors.secondaryGreen,
-    alignSelf: 'center',
-    justifyContent: 'center',
-    textAlign: 'center'
-  }
+    alignSelf: "center",
+    justifyContent: "center",
+    textAlign: "center",
+  },
+  footerIndicator: {
+    paddingVertical: 20,
+  },
 });
 
 export default styles;

@@ -2,16 +2,16 @@ import React, { useEffect } from "react";
 import { SafeAreaView, Image, ScrollView } from "react-native";
 import styles from "./styles";
 import RenderHtml from "react-native-render-html";
-import { SvgEnum, screenWidth } from "../../utils";
+import { appNavigationProp, appRouteProp, screenWidth } from "../../utils";
 
 type Props = {
-  route: any;
-  navigation: any;
+  route: appRouteProp;
+  navigation: appNavigationProp;
   isFavorite: boolean;
 };
 
 const DetailScreen: React.FC<Props> = ({ route, navigation }) => {
-  const { banner, content, title, postId } = route.params.blogDetails;
+  const { banner, content, title } = route?.params?.blogDetails;
 
   useEffect(() => {
     navigation.setOptions({ headerTitle: title });
